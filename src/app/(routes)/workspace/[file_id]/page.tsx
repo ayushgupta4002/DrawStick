@@ -23,6 +23,8 @@ function page({ params }: any) {
     setDocData(result);
   };
 
+
+
   return (
     <div>
       <WorkspaceHeader trigger={() => setTriggerSave(!triggerSave)} />
@@ -35,7 +37,8 @@ function page({ params }: any) {
           />
         </div>
         <div className=" h-screen w-[60%] border-l">
-          <Canvas />
+          <Canvas  trigger={triggerSave}
+            file_id={params.file_id} fileData={DocData}/>
         </div>
       </div>
     </div>
