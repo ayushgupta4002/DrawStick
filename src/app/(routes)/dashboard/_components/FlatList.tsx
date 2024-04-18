@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/app/_context/ContextAuth";
 import { Archive, ArchiveXIcon, MoreHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export interface FileType {
   archive: boolean;
@@ -30,9 +31,10 @@ export interface FileType {
   _creationTime: number;
 }
 
-function FlatList() {
+function FlatList() {;
   const { File, setFiles } = useAuth();
   console.log(File);
+  const router = useRouter()
 
   return (
     <div className="mt-3 mx-3">
@@ -50,7 +52,7 @@ function FlatList() {
         <TableBody>
           {File &&
             File.map((item: FileType, index: number) => (
-              <TableRow key={index}>
+              <TableRow key={index} onClick={()=>router.push('/workspace/'+ item._id) } className="cursor-pointer">
                 <TableCell className="font-medium">{item.fileName}</TableCell>
                 <TableCell>
                   {new Date(item._creationTime).toLocaleDateString()}
