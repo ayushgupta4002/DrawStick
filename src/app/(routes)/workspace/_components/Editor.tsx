@@ -1,13 +1,25 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import EditorJS from "@editorjs/editorjs";
-import Header, { HeaderToolConfig } from "@editorjs/header";
-function Editor() {
+import Header from "@editorjs/header";
+import { useMutation } from "convex/react";
+import { api } from "../../../../../convex/_generated/api";
+import { toast } from "sonner";
+import { FileType } from "../../dashboard/_components/FlatList";
+
+
+function Editor({ trigger , file_id ,  fileData}: {trigger:any , file_id:any , fileData : FileType}) {
   const ref = useRef<EditorJS>();
+  const updatedoc = useMutation(api.files.updateDocument);
+
+  useEffect(()=>{
+    fileData&&initEditor();
+},[fileData])
 
   useEffect(() => {
-    initEditor();
-  }, []);
+    console.log(trigger);
+    trigger && onSaveDocument();
+  }, [trigger]);
 
   const rawDocument = {
     time: 1550476186479,
@@ -43,9 +55,34 @@ function Editor() {
         },
       },
       holder: "editorjs",
-      data: rawDocument,
+      data: fileData?.document?JSON.parse(fileData.document):rawDocument,
     });
     ref.current = editor;
+  };
+
+  const onSaveDocument = async () => {
+    if (ref.current) {
+      await ref.current
+        .save()
+        .then((outputData) => {
+          console.log("Article data: ", outputData);
+          updatedoc({
+            _id: file_id,
+            document: JSON.stringify(outputData),
+          }).then(
+            (resp) => {
+              console.log(resp)
+              toast("Document Updated!");
+            },
+            (e) => {
+              toast("Server Error!");
+            }
+          );
+        })
+        .catch((error) => {
+          console.log("Saving failed: ", error);
+        });
+    }
   };
   return (
     <div className="ml-5">

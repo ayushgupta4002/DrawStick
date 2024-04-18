@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Link, Save } from 'lucide-react'
 import React from 'react'
 
-function WorkspaceHeader() {
+function WorkspaceHeader({trigger}:any) {
   return (
     <div className='p-3 border-b flex justify-between items-center'>
       <div className='flex gap-2 items-center'>
@@ -12,7 +12,7 @@ function WorkspaceHeader() {
         <Button className='h-8 text-[12px]
         gap-2 bg-yellow-500 hover:bg-yellow-600'
         > 
-        <Save className='h-4 w-4' /> Save </Button>
+        <Save className='h-4 w-4' onClick={()=> {trigger() ; console.log("click triggered")}} /> Save </Button>
         <Button className='h-8 text-[12px]
         gap-2 bg-blue-600 hover:bg-blue-700'>
           Share <Link className='h-4 w-4' /> </Button>
