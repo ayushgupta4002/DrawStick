@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideNavTop, { TEAM } from "./SideNavTop";
 import { Popover, PopoverTrigger , PopoverContent } from "@/components/ui/popover";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
@@ -7,12 +7,18 @@ import SideNavBottom from "./SideNavBottom";
 import { useConvex, useMutation } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { toast } from "sonner";
+import { useAuth } from "@/app/_context/ContextAuth";
 
 function SideNav() {
+    const {setFiles} = useAuth();
     const { user } = useKindeBrowserClient();
     const[ activeTeam , setActiveTeam] = useState<TEAM | any>();
     const createNewFile = useMutation(api.files.createFile);
     const convex = useConvex();
+
+    useEffect(()=>{
+        activeTeam&&getFiles();
+      },[activeTeam])
 
     const CreateFile= async(inputFile : String) =>{
         console.log(inputFile)
@@ -26,6 +32,7 @@ function SideNav() {
             whiteboard:''
         }).then((resp) => {
             console.log(resp);
+            getFiles();
             toast("File Saved !")
             
         }).catch((error)=>{
@@ -37,6 +44,11 @@ function SideNav() {
     const getFiles=async()=>{
         const result=await convex.query(api.files.getFiles,{teamId:activeTeam?._id});
         console.log(result);
+        if (setFiles) { 
+            setFiles(result);
+          } else {
+            console.error("setFiles is not defined");
+          }
        
       }
     

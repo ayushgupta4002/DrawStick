@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
     console.log( "isauthMiddleware");
   
     const {isAuthenticated} = getKindeServerSession();
-    console.log(isAuthenticated + "isauth");
+    // console.log(isAuthenticated + "isauth");
     if (!(await isAuthenticated())) {
         return NextResponse.redirect(new URL('/api/auth/login?post_login_redirect_url=/dashboard', request.url))
     }
