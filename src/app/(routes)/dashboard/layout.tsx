@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import SideNav from "./_components/SideNav";
 import { AuthProvider, useAuth } from "@/app/_context/ContextAuth";
 import { MenuIcon, X } from "lucide-react";
+import Loader from "@/app/_components/Loader";
 
 function DashboardLayout({
   children,
@@ -41,7 +42,7 @@ function DashboardLayout({
   return (
     <AuthProvider>
       {Loading ? (
-        <div>loading</div>
+        <div><Loader/></div>
       ) : (
         <>
           <div className="grid grid-cols-4">

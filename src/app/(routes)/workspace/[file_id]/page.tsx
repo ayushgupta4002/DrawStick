@@ -7,7 +7,7 @@ import { api } from "../../../../../convex/_generated/api";
 import { FileType } from "../../dashboard/_components/FlatList";
 import Canvas from "../_components/Canvas";
 
-function page({ params }: any) {
+function Page({ params }: any) {
   const [triggerSave, setTriggerSave] = useState(false);
   const [DocData, setDocData] = useState<FileType | any>();
   const convex = useConvex();
@@ -45,4 +45,4 @@ function page({ params }: any) {
   );
 }
 
-export default page;
+export default Page;
