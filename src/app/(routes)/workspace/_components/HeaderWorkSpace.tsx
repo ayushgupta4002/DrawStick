@@ -57,7 +57,7 @@ function WorkspaceHeader({
             <DialogHeader>
               <DialogTitle className="py-2">Share this link !!</DialogTitle>
               <DialogDescription className="border border-gray-400 rounded-lg p-2 mt-2">
-                <div>http://localhost:3000/share/workspace/{fileData?._id}</div>
+                <div>{process.env.NEXT_PUBLIC_SERVER_URL}/share/workspace/{fileData?._id}</div>
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -65,7 +65,7 @@ function WorkspaceHeader({
                 type="submit"
                 onClick={() =>
                   navigator.clipboard.writeText(
-                    `http://localhost:3000/share/workspace/${fileData?._id}`
+                    `${process.env.NEXT_PUBLIC_SERVER_URL}/share/workspace/${fileData?._id}`
                   ).then(
                     (resp)=>{
                      alert("link copied")
