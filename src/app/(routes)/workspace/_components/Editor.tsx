@@ -4,17 +4,25 @@ import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 import { useMutation } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
-import { toast } from "sonner";
 import { FileType } from "../../dashboard/_components/FlatList";
+import { useToast } from "@/components/ui/use-toast";
 
-
-function Editor({ trigger , file_id ,  fileData}: {trigger:any , file_id:any , fileData : FileType}) {
+function Editor({
+  trigger,
+  file_id,
+  fileData,
+}: {
+  trigger: any;
+  file_id: any;
+  fileData: FileType;
+}) {
   const ref = useRef<EditorJS>();
+  const toast = useToast();
   const updatedoc = useMutation(api.files.updateDocument);
 
-  useEffect(()=>{
-    fileData&&initEditor();
-},[fileData])
+  useEffect(() => {
+    fileData && initEditor();
+  }, [fileData]);
 
   useEffect(() => {
     console.log(trigger);
@@ -55,7 +63,7 @@ function Editor({ trigger , file_id ,  fileData}: {trigger:any , file_id:any , f
         },
       },
       holder: "editorjs",
-      data: fileData?.document?JSON.parse(fileData.document):rawDocument,
+      data: fileData?.document ? JSON.parse(fileData.document) : rawDocument,
     });
     ref.current = editor;
   };
@@ -71,11 +79,17 @@ function Editor({ trigger , file_id ,  fileData}: {trigger:any , file_id:any , f
             document: JSON.stringify(outputData),
           }).then(
             (resp) => {
-              console.log(resp)
-              toast("Document Updated!");
+              console.log(resp);
+              toast.toast({
+                title: "Document Updated!",
+                description: "Your Document was updated successfully!",
+              });
             },
             (e) => {
-              toast("Server Error!");
+              toast.toast({
+                title: "Error",
+                description: "There was some error saving the document!",
+              });
             }
           );
         })

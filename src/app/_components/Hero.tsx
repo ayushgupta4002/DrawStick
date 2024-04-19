@@ -9,19 +9,19 @@ export default function Hero() {
         <h1
           className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl"
         >
-          Understand User Flow.
+         Design and document.
   
           <span className="sm:block"> Increase Conversion. </span>
         </h1>
   
         <p className="mx-auto mt-4 max-w-xl sm:text-xl/relaxed">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.Ducimus numquam ea!
+        Design, document and innovate with ease,Welcome to your digital canvas.
         </p>
   
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Link
             className="block w-full rounded border bg-slate-300 px-12 py-3 text-sm font-medium text-black hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto"
-            href="#"
+            href="/dashboard"
           >
             Get Started
           </Link>

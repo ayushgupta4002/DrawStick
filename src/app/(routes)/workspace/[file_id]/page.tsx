@@ -27,7 +27,7 @@ function page({ params }: any) {
 
   return (
     <div>
-      <WorkspaceHeader trigger={() => setTriggerSave(!triggerSave)} />
+      <WorkspaceHeader trigger={() => setTriggerSave(!triggerSave)} fileData={DocData} />
       <div className="flex flex-col md:flex-row">
         <div className=" h-screen w-[40%]">
           <Editor

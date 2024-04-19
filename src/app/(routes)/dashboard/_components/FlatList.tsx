@@ -33,7 +33,7 @@ export interface FileType {
 
 function FlatList() {;
   const { File, setFiles } = useAuth();
-  console.log(File);
+  // console.log(File);
   const router = useRouter()
 
   return (

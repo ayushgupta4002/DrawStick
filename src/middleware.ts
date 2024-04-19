@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
     console.log( "isauthMiddleware");
   
     const {isAuthenticated} = getKindeServerSession();
-    // console.log(isAuthenticated + "isauth");
+    console.log(await isAuthenticated() + "isauth");
     if (!(await isAuthenticated())) {
         return NextResponse.redirect(new URL('/api/auth/login?post_login_redirect_url=/dashboard', request.url))
     }
@@ -15,5 +15,5 @@ export async function middleware(request: NextRequest) {
  
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: '/dashboard',
+  matcher: ['/dashboard','/workspace/:id*','/teams/create']
 }

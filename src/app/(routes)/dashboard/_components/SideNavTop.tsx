@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 import { useConvex, useMutation } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import Image from "next/image";
 
 export interface TEAM {
   createdBy: String;
@@ -35,14 +37,14 @@ function SideNavTop({ user , setActiveTeamId }: any) {
 
   useEffect(()=>{
     setActiveTeamId(activeTeam);
-    console.log(activeTeam);
+    // console.log(activeTeam);
   },[activeTeam])
 
   const getTeam = async () => {
     const result = await convex.query(api.teams.getTeams, {
       email: user?.email ?? "",
     });
-    console.log("TeamList", result);
+    // console.log("TeamList", result);
     setTeamList(result);
     setActiveTeam(result[0]);
   };
@@ -65,7 +67,8 @@ function SideNavTop({ user , setActiveTeamId }: any) {
       <Popover>
         <PopoverTrigger>
           <div className="items-center  cursor-pointer mt-4 flex flex-row justify-center gap-4 hover:bg-gray-200 rounded-lg p-2 m-2">
-            <div className="text-center font-bold ">{activeTeam?.teamName}</div>
+            <div><Link href={"/"}> <Image src={"/logo.png"} width={40} height={30} alt=''/ ></Link></div>
+            <div className="text-center font-bold "> {activeTeam?.teamName}</div>
             <ChevronDown />
           </div>
         </PopoverTrigger>

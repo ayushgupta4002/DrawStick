@@ -6,11 +6,13 @@ import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import SideNavBottom from "./SideNavBottom";
 import { useConvex, useMutation } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
-import { toast } from "sonner";
 import { useAuth } from "@/app/_context/ContextAuth";
+import { useToast } from "@/components/ui/use-toast";
 
 function SideNav() {
     const {setFiles} = useAuth();
+    const { toast } = useToast();
+
     const { user } = useKindeBrowserClient();
     const[ activeTeam , setActiveTeam] = useState<TEAM | any>();
     const createNewFile = useMutation(api.files.createFile);
@@ -33,11 +35,18 @@ function SideNav() {
         }).then((resp) => {
             console.log(resp);
             getFiles();
-            toast("File Saved !")
+            toast({
+              title: "File Saved",
+              description: "Hurray ! your File is saved ! ",
+            })
+  
             
         }).catch((error)=>{
             console.log(error);
-            toast("There was an Error saving file")
+            toast({
+              title: "Error",
+              description: "There was some error while saving the file!",
+            })
         })
     }
 
