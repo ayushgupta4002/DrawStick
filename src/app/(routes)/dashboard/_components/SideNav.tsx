@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Cross, CrossIcon, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import SideNavTop, { TEAM } from "./SideNavTop";
 import { Popover, PopoverTrigger , PopoverContent } from "@/components/ui/popover";
@@ -9,9 +9,9 @@ import { api } from "../../../../../convex/_generated/api";
 import { useAuth } from "@/app/_context/ContextAuth";
 import { useToast } from "@/components/ui/use-toast";
 
-function SideNav() {
+function SideNav({open , setOpen}:any) {
     const {setFiles} = useAuth();
-    const { toast } = useToast();
+    const { toast } = useToast()
 
     const { user } = useKindeBrowserClient();
     const[ activeTeam , setActiveTeam] = useState<TEAM | any>();
@@ -63,8 +63,10 @@ function SideNav() {
     
 
   return (
-  
-    <div className="border borer-[1px] h-screen flex flex-col justify-between border-gray-200 fixed h-full w-72  p-3">
+
+   
+    <div className={open?"border borer-[1px] h-[95vh] flex flex-col justify-between border-gray-200 fixed h-full w-full  p-3" : "border borer-[1px] h-screen flex flex-col justify-between border-gray-200 fixed h-full w-72  p-3"}>
+
      <SideNavTop user ={user}  setActiveTeamId={setActiveTeam}/>
      
     <SideNavBottom createFile={CreateFile}/>

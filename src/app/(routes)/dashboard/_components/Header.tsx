@@ -8,7 +8,7 @@ function Header() {
     const {user}:any=useKindeBrowserClient();
   return (
     <div className='flex justify-end w-full gap-2 items-center'>
-        <div className='flex gap-2 items-center border rounded-md p-1'>
+        <div className='flex gap-2 items-center border rounded-md p-1 max-[790px]:hidden'>
             <Search className='h-4 w-4 '/>
             <input type='text' className='focus:outline-none' placeholder='Search'/>
         </div>

@@ -55,12 +55,12 @@ function SideNavTop({ user , setActiveTeamId }: any) {
       path: "/teams/create",
       icon: Users,
     },
-    {
-      id: 2,
-      name: "Settings",
-      path: "",
-      icon: Settings,
-    },
+    // {
+    //   id: 2,
+    //   name: "Settings",
+    //   path: "",
+    //   icon: Settings,
+    // },
   ];
   return (
     <div>
