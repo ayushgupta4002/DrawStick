@@ -15,6 +15,7 @@ function Page({ params }: any) {
   const convex = useConvex();
   const methodRef = useRef<{ someMethod: () => void } | null>(null); // Provide type information here
   const [Loading, setLoading] = useState(true);
+  const[EditorStatus , SetEditorStatus] = useState(true);
   useEffect(() => {
     getFileData();
   }, []);
@@ -29,6 +30,14 @@ function Page({ params }: any) {
     setLoading(false);
   };
 
+  const onSetEditorStatus=(state : boolean)=>{
+    console.log("change states")
+
+    SetEditorStatus(state)
+    console.log(EditorStatus);
+
+  }
+
   return (
     <>
       {Loading ? (
@@ -42,23 +51,26 @@ function Page({ params }: any) {
               trigger={() => setTriggerSave(!triggerSave)}
               fileData={DocData}
               methodRef={methodRef}
-            />
+              EditorStatus={EditorStatus}
+              onSetEditorStatus={onSetEditorStatus}
+              />
             <div className="flex flex-col md:flex-row">
-              <div className=" h-screen w-[40%] max-[770px]:w-full">
+              <div className={EditorStatus ==true ? "h-screen w-[40%] max-[770px]:w-full" : "hidden"}>
                 <Editor
                   trigger={triggerSave}
                   file_id={params.file_id}
                   fileData={DocData}
+                  EditorStatus={EditorStatus}
+                  onSetEditorStatus={onSetEditorStatus}
                 />
               </div>
-              <div className=" h-screen w-[60%] border-l max-[770px]:w-full">
+              <div className={EditorStatus == true?"h-screen w-[60%] border-l max-[770px]:w-full" : "h-screen w-[100%] border-l max-[770px]:w-full"}>
                 <Canvas
                   trigger={triggerSave}
                   file_id={params.file_id}
                   fileData={DocData}
                   methodRef={methodRef}
                   setLoading={setLoading}
-                  
                 />
               </div>
             </div>

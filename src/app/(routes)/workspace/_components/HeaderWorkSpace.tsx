@@ -22,10 +22,14 @@ function WorkspaceHeader({
   trigger,
   fileData,
   methodRef,
+  EditorStatus,
+  onSetEditorStatus,
 }: {
   trigger: any;
   fileData: FileType;
-  methodRef:any;
+  methodRef: any;
+  EditorStatus: boolean;
+  onSetEditorStatus: any;
 }) {
   return (
     <div className="p-3 border-b flex justify-between items-center">
@@ -36,6 +40,19 @@ function WorkspaceHeader({
         <h2 className="text-xl font-bold">{fileData?.fileName}</h2>
       </div>
       <div className="flex items-center gap-4">
+        {EditorStatus ? (
+          <></>
+        ) : (
+          <Button
+            className="h-6 align-bottom text-[11px]
+        gap-2 bg-cyan-600 hover:bg-cyan-900"
+            onClick={() => {
+              onSetEditorStatus(true);
+            }}
+          >
+            <Save className="h-4 w-4" /> Open Text Editor
+          </Button>
+        )}
         <Button
           className="h-8 text-[12px]
         gap-2 bg-yellow-500 hover:bg-yellow-600"
@@ -79,9 +96,8 @@ function WorkspaceHeader({
                 type="submit"
                 onClick={() => {
                   console.log("submit button");
-                 
+
                   methodRef.current.someMethod();
-                  
                 }}
               >
                 Submit

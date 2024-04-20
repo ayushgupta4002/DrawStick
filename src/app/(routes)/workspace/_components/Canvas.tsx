@@ -10,6 +10,7 @@ import { api } from "../../../../../convex/_generated/api";
 //@ts-ignore
 import { parseMermaidToExcalidraw } from "@excalidraw/mermaid-to-excalidraw";
 import { useRouter } from "next/navigation";
+import { BookOpen, ChevronsRight, ExternalLink } from "lucide-react";
 
 function Canvas({
   trigger,
@@ -118,6 +119,7 @@ const router = useRouter();
   return (
     <div>
       <div className="h-screen ">
+
         {fileData && (
           <Excalidraw
             onChange={(excalidrawElements) => {
@@ -138,6 +140,8 @@ const router = useRouter();
             }}
           >
             <WelcomeScreen>
+           
+
               <WelcomeScreen.Hints.MenuHint />
               <WelcomeScreen.Hints.HelpHint />
               <WelcomeScreen.Hints.ToolbarHint />

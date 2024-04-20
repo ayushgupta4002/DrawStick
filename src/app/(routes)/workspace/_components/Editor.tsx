@@ -6,15 +6,21 @@ import { useMutation } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { FileType } from "../../dashboard/_components/FlatList";
 import { useToast } from "@/components/ui/use-toast";
+import { CircleX, PanelLeftClose } from "lucide-react";
 
 function Editor({
   trigger,
   file_id,
   fileData,
+  EditorStatus,
+  onSetEditorStatus
 }: {
   trigger: any;
   file_id: any;
   fileData: FileType;
+  EditorStatus:boolean;
+  onSetEditorStatus:any
+  
 }) {
   const ref = useRef<EditorJS>();
   const toast = useToast();
@@ -100,6 +106,8 @@ function Editor({
   };
   return (
     <div className="ml-5">
+      {EditorStatus?<div className="ml-[90%] p-2 cursor-pointer" onClick={() => onSetEditorStatus()}><CircleX className="cursor-pointer" /></div> : <></>}
+      <hr></hr>
       <div id="editorjs" className="pl-2 md:pl-12"></div>
     </div>
   );
