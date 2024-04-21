@@ -1,7 +1,8 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import { Save, Link2, Bot } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { FileType } from "../../dashboard/_components/FlatList";
 import Link from "next/link";
 import {
@@ -31,6 +32,8 @@ function WorkspaceHeader({
   EditorStatus: boolean;
   onSetEditorStatus: any;
 }) {
+  const [prompt, setPrompt] = useState<string>();
+
   return (
     <div className="p-3 border-b flex justify-between items-center">
       <div className="flex flex-row gap-2 items-center">
@@ -88,6 +91,9 @@ function WorkspaceHeader({
                 <Textarea
                   placeholder="Type your message here."
                   className="w-full"
+                  onChange={(e)=>{
+                    setPrompt(e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -97,7 +103,7 @@ function WorkspaceHeader({
                 onClick={() => {
                   console.log("submit button");
 
-                  methodRef.current.someMethod();
+                  methodRef.current.someMethod(prompt);
                 }}
               >
                 Submit

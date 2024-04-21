@@ -64,20 +64,15 @@ function Canvas({
   end
   `;
 
-const router = useRouter();
+  const router = useRouter();
 
   const [whiteBoardData, setWhiteBoardData] = useState<any>();
- 
 
   const updateWhiteboard = useMutation(api.files.updateWhiteboardCanvas);
 
   useEffect(() => {
     trigger && saveCanvas();
   }, [trigger]);
-
-
-
-
 
   const saveCanvas = async () => {
     await updateWhiteboard({
@@ -86,15 +81,64 @@ const router = useRouter();
     }).then((resp) => console.log(resp));
   };
 
+  function extractCode(response: any) {
+    const startDelimiter = "```mermaid";
+    const endDelimiter = "```";
+    let startIndex = response.indexOf(startDelimiter);
+    const codes = [];
 
+    while (startIndex !== -1) {
+      const endIndex = response.indexOf(
+        endDelimiter,
+        startIndex + startDelimiter.length
+      );
+      if (endIndex !== -1) {
+        // Extract code and remove the first line
+        let code = response.substring(startIndex, endIndex).trim();
+        // Remove the first line
+        code = code.substring(code.indexOf("\n") + 1);
+        codes.push(code);
+      }
+      startIndex = response.indexOf(
+        startDelimiter,
+        endIndex + endDelimiter.length
+      );
+    }
 
+    return codes;
+  }
 
-  const getAutoDesign = async () => {
-    //some code to get design from api in mermaid code!
-
-    //code to fit that deign in canvas
+  const getAutoDesign = async (userPrompt : string) => {
     setLoading(true);
-    const { elements, files } = await parseMermaidToExcalidraw(mermaidCode, {
+    const token = `Bearer ${process.env.NEXT_PUBLIC_SECRET_TOKEN_FORAPIAUTH}`
+    console.log(userPrompt);
+    console.log(token);
+
+    const m = {
+      prompt: userPrompt  
+    };
+    //some code to get design from api in mermaid code!
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/canvas`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token 
+        },
+        body: JSON.stringify(m),
+      }
+    );
+    const data = await res.json();
+
+    console.log(data.message);
+
+    const codes = extractCode(data.message.content);
+    const final = codes.join("\n\n");
+    console.log(final);
+
+    // code to fit that deign in canvas
+    const { elements, files } = await parseMermaidToExcalidraw(final, {
       fontSize: 14,
     });
     const excalidrawElements = convertToExcalidrawElements(elements);
@@ -103,23 +147,18 @@ const router = useRouter();
     await updateWhiteboard({
       _id: file_id,
       whiteboard: JSON.stringify(excalidrawElements),
-    }).then(async(resp) =>{
-      window.location.reload()
-        });
+    }).then(async (resp) => {
+      // window.location.reload();
+    });
   };
-
-
 
   methodRef.current = {
     someMethod: getAutoDesign,
   };
 
-
-  
   return (
     <div>
       <div className="h-screen ">
-
         {fileData && (
           <Excalidraw
             onChange={(excalidrawElements) => {
@@ -140,8 +179,6 @@ const router = useRouter();
             }}
           >
             <WelcomeScreen>
-           
-
               <WelcomeScreen.Hints.MenuHint />
               <WelcomeScreen.Hints.HelpHint />
               <WelcomeScreen.Hints.ToolbarHint />
