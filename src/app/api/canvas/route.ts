@@ -80,12 +80,15 @@ export async function POST(req: Request, res: NextResponse) {
     });
   }
   else{
-    return NextResponse.json({ message: "unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: {
+      message :"unauthorized",
+      token:token
+    }  }, { status: 401 });
   }
   console.log(result);
   if (result.length == 0) {
     // If the token doesn't match, return a 401 Unauthorized response
-    return NextResponse.json({ message: "unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: "unauthorized, no such user exists"  , token:token}, { status: 401 });
   }
   if(result[0].freeCredits>0){
 
