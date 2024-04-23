@@ -18,14 +18,11 @@ export const getuser = query({
 
 export const getuserbyId = query({
   args: {
-    _id: v.string(),
+    _id: v.id('user'),
   },
   handler: async (ctx, args) => {
-    const result = await ctx.db
-      .query("user")
-      .filter((q) => q.eq(q.field("_id"), args._id))
-      .collect();
-
+    const result = await ctx.db.get(args._id);
+  
     return result;
   },
 });
