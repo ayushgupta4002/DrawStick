@@ -89,18 +89,18 @@ export async function POST(req: Request, res: NextResponse) {
   }
   if(result[0].freeCredits>0){
 
-  const completion = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    messages: [
-      {
-        role: "assistant",
-        content:
-          `${body.prompt} Design a system design a very detailed system design diagram using this information in mermaid syntax consisting of many components , Make sure that code does not have multiple mermaid but can have multiple graphs , subgraphs etc ,just give the code in mermaid syntax to draw system design and nothing else  `
-      },
-    ],
-  });
-  console.log(completion.choices[0].message);
-  const theResponse = completion.choices[0].message;
+  // const completion = await openai.chat.completions.create({
+  //   model: "gpt-3.5-turbo",
+  //   messages: [
+  //     {
+  //       role: "assistant",
+  //       content:
+  //         `${body.prompt} Design a system design a very detailed system design diagram using this information in mermaid syntax consisting of many components , Make sure that code does not have multiple mermaid but can have multiple graphs , subgraphs etc ,just give the code in mermaid syntax to draw system design and nothing else  `
+  //     },
+  //   ],
+  // });
+  // console.log(completion.choices[0].message);
+  // const theResponse = completion.choices[0].message;
 
   const final: any = await client.mutation(api.user.updateFreeCredits, {
     _id: result[0]._id as Id<"user">,
@@ -111,7 +111,7 @@ export async function POST(req: Request, res: NextResponse) {
     console.log(error)
   })
 
-  return NextResponse.json({ message: theResponse }, { status: 200 });
+  return NextResponse.json({ message: response }, { status: 200 });
   }
   else{
     return NextResponse.json({ message: "All free credits are exhausted" }, { status: 429 });
