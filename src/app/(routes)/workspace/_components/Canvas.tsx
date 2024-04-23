@@ -11,6 +11,7 @@ import { api } from "../../../../../convex/_generated/api";
 import { parseMermaidToExcalidraw } from "@excalidraw/mermaid-to-excalidraw";
 import { useRouter } from "next/navigation";
 import { BookOpen, ChevronsRight, ExternalLink } from "lucide-react";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 function Canvas({
   trigger,
@@ -18,12 +19,14 @@ function Canvas({
   fileData,
   methodRef,
   setLoading,
+  userData,
 }: {
   trigger: any;
   file_id: any;
   fileData: FileType;
   methodRef: any;
   setLoading: any;
+  userData:any[] | undefined;
 }) {
   var mermaidCode = `
   graph TD;
@@ -65,6 +68,8 @@ function Canvas({
   `;
 
   const router = useRouter();
+  const { user } = useKindeBrowserClient();
+  const convex = useConvex();
 
   const [whiteBoardData, setWhiteBoardData] = useState<any>();
 
@@ -108,14 +113,23 @@ function Canvas({
     return codes;
   }
 
-  const getAutoDesign = async (userPrompt : string) => {
+  const getAutoDesign = async (userPrompt: string) => {
     setLoading(true);
-    const token = `Bearer ${process.env.NEXT_PUBLIC_SECRET_TOKEN_FORAPIAUTH}`
     console.log(userPrompt);
-    console.log(token);
+    if(userData ==undefined){
+      setLoading(false);
+      alert("Please Login Again !")
+    }
+
+    if (userData&&userData[0].freeCredits == 0) {
+      setLoading(false);
+      alert("Free Credits Exhausted");
+     
+      return;
+    }
 
     const m = {
-      prompt: userPrompt  
+      prompt: userPrompt,
     };
     //some code to get design from api in mermaid code!
     const res = await fetch(
@@ -124,7 +138,7 @@ function Canvas({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token 
+          Authorization: userData&&userData[0]._id,
         },
         body: JSON.stringify(m),
       }
@@ -148,7 +162,7 @@ function Canvas({
       _id: file_id,
       whiteboard: JSON.stringify(excalidrawElements),
     }).then(async (resp) => {
-      // window.location.reload();
+      window.location.reload();
     });
   };
 

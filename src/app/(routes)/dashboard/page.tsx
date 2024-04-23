@@ -32,6 +32,7 @@ function Dashboard() {
       createUser({
         name: user?.given_name ?? "",
         email: user?.email ?? "",
+        freeCredits:2
       })
         .then((resp) => console.log(resp))
         .catch((error) => console.log(error));

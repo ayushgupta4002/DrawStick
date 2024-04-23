@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
 import { Save, Link2, Bot } from "lucide-react";
 import Image from "next/image";
@@ -25,14 +25,16 @@ function WorkspaceHeader({
   methodRef,
   EditorStatus,
   onSetEditorStatus,
+  userData,
 }: {
   trigger: any;
   fileData: FileType;
   methodRef: any;
   EditorStatus: boolean;
   onSetEditorStatus: any;
+  userData: any[] | undefined;
 }) {
-  const [prompt, setPrompt] = useState<string>();
+  const [prompt, setPrompt] = useState<string>("");
 
   return (
     <div className="p-3 border-b flex justify-between items-center">
@@ -80,7 +82,18 @@ function WorkspaceHeader({
             <DialogHeader>
               <DialogTitle>AI Design</DialogTitle>
               <DialogDescription>
-                Tell us what you want to design and let us Handle it for you !
+                Tell us what you want to design and let us Handle it for you ! Please make your prompt as brief as possible !
+              </DialogDescription>
+              <DialogDescription>
+                {userData &&
+                userData[0] &&
+                userData[0].freeCredits !== undefined ? (
+                  <div className="font-semibold">
+                    Remaining Credits: {userData[0].freeCredits}
+                  </div>
+                ) : (
+                  <div className="font-semibold">No credits available</div>
+                )}
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
@@ -91,7 +104,7 @@ function WorkspaceHeader({
                 <Textarea
                   placeholder="Type your message here."
                   className="w-full"
-                  onChange={(e)=>{
+                  onChange={(e) => {
                     setPrompt(e.target.value);
                   }}
                 />

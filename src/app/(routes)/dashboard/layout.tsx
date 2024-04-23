@@ -28,7 +28,7 @@ function DashboardLayout({
   const checkTeams = async () => {
     setLoading?.(true);
     console.log("loading value set to true : " + Loading);
-    console.log(user.email);
+    console.log(user);
     const result = await convex.query(api.teams.getTeams, {
       email: user?.email,
     });
