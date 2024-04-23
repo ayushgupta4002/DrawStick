@@ -76,7 +76,7 @@ export async function POST(req: Request, res: NextResponse) {
   var result : any;
   if (token != null) {
      result  = await client.query(api.user.getuserbyId, {
-      _id: token as Id<"user">,
+      id: token as string,
     });
   }
   else{
