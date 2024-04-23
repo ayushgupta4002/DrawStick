@@ -54,7 +54,7 @@ const response = {
     "```",
 };
 const client = new ConvexHttpClient(
-  "https://limitless-hippopotamus-683.convex.cloud"
+  "https://sensible-rabbit-519.convex.cloud"
 );
 
 export async function GET() {
